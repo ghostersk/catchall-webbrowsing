@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tables/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tables/bootstrap5.css')}}">
+    <link rel="shortcut icon" href="#">    
+    <script src="{{ url_for('static', filename='tables/jquery.js')}}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='tables/dataTables.js')}}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='tables/dataTables.bootstrap5.js')}}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='tables/bootstrap.bundle.min.js')}}" type="text/javascript"></script>
+    <title>List of blocked sites</title>
+</head>
+<style>
+    .out_mid {position: absolute;width: auto; height: auto;top:40%;left: 30%;text-align: center;}
+</style>
+<body>   
+    {% if records %}
+    <div class="container">
+    <table border="1" id="datatable1" class="table table-striped" style="width:100%">
+        <thead>
+        <tr>
+            {# <th>ID</th> #}
+            <th>Timestamp</th>
+            <th>Method</th>
+            <th>URL</th>
+            <th>Root Domain</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for log in records %}
+        <tr>
+            {# <td>{{log.id}}</td> #}
+            <td>{{log.timestamp.strftime('%d-%m-%Y %H:%M:%S')}}</td>
+            <td>{{log.method}}</td>
+            <td>{{log.url}}</td>
+            <td>{{log.root_domain}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div><br></br>
+        <!-- Add a button to trigger the deletion of records -->
+        <form id="deleteForm" action="{{ url_for('delete_records') }}" method="post">
+            <!-- Button to trigger the confirmation dialog -->
+            <button type="button" class="btn btn-danger" onclick="confirmDelete()">Delete All Records</button>
+        </form>
+    </div>
+    </div>
+    {% else %}
+    <div class="out_mid"> 
+        <h2> <b>No data recorded yet.</b></h2>
+    </div>
+
+    {% endif %}
+    <script>
+        new DataTable('#datatable1');
+        // Function to display the confirmation dialog
+        function confirmDelete() {
+            // Show the confirmation dialog
+            if (confirm("Are you sure you want to delete all records?")) {
+                // If user confirms, submit the form
+                document.getElementById("deleteForm").submit();
+            }
+        }
+    </script>
+</body>
+</html>

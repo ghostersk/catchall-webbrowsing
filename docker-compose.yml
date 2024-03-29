@@ -1,0 +1,30 @@
+version: '3'
+networks:
+  # Join the container to network you have in use
+  backend:
+    external: true
+    
+services:
+  catchall:
+    container_name: catchall
+    hostname: catchall
+    image: python:3
+    volumes:
+      # Mount your Flask app code into the container to /app
+      - /opt/settings/catch_all:/app
+    working_dir: /app
+    # To start the app, run bellow command:
+    command: ["bash", "-c", "/app/startup.sh"]
+    # if you have any issues, you can run it with command bellow
+    # and test it with docker exec -it catchall bash
+    # here you will be able to run the app.py and fix any errors
+    #command: ["bash", "-c", "echo 'Container is ready'; sleep infinity"]
+    restart: always
+    # if you want, you can use these ports, or just use the ip of container
+    # ports:
+      # - 80:80
+      # - 443:443
+    networks:
+      backend:
+        # for best results, assign static IP and point Adguard to the ip
+        ipv4_address: 10.99.197.231

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" class="fullbody">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tables/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tables/bootstrap5.css')}}">
+    <link rel="shortcut icon" href="#">    
+    <title>Blocked Site</title>    
+</head>
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;  /* Align items at the start of the cross axis */
+}
+.container {
+    width: 100%;
+    height: 60%; /* adjust height level, 100% is in middle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.centered-div {
+    width: auto; /* Set your desired width */
+    height: auto; /* Set your desired height */
+    background-color:rgb(4, 64, 99);
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visual */
+}
+.left_align {text-align: left; padding:10px;}
+.left_ul {padding:10px !important;}
+.warning {background:red;text-align: center; border-radius: 10px;}
+.s_table, table, th, td, tr { border: 2px solid;padding: 10px;  border-collapse: collapse;}
+
+</style>
+<body class="fullbody">
+    <div class="container">
+        <div class="centered-div">
+
+            {% if records %}
+            <h1 class='warning'>
+                <b>Website {{ records.root_domain }} blocked</b>
+            </h1>
+            <div class="container">
+                <table class="left_align s_table">
+                    <tr>
+                        <th>Method</th>
+                        <td>{{records.method}}</td>
+                    </tr>
+                    <tr>
+                        <th>URL</th>
+                        <td>{{records.url}}</td>
+                    </tr>
+                </table>
+            </div>
+            <p>
+                <a href="{{ url_for('show_query') }}"> Show History ...</a>
+            </p>
+
+            {% endif %}
+        </div>
+        <p>
+        </p>
+    </div>
+</body>
+</html>
