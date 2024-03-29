@@ -1,4 +1,4 @@
-# catchall-webbrowsing
+# catchall-webbrowsing for Adguard Home
 Flask app for catching web requests and recording them
 I have created this app to redirect all blocked DNS queries from Adguard Home, to the ip of docker container.
 The app will record what website was used, and it will also return information the website was blocked.
