@@ -22,10 +22,15 @@ This will first run the app on port 80 and all interfaces and last command it wi
 
 This app is using [Interactive Bootstrap 5 DataTables](https://www.datatables.net/) for easier data lookup.
 
-![Screenshot_20240329_125226](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/c7fdccff-c270-4662-9ae5-106693729cf4)
+![Screenshot_20240518_190358](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/c81bcb9a-3847-4c8f-85ca-115a731ee228)
+
 ## List all blocked attempts
-![Screenshot_20240329_125250](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/9e9d7987-0e80-48cf-a9f3-8d134c70d904)
+![Screenshot_20240518_190418](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/ad23243f-aaa4-4593-b8e5-0f692d204fc8)
 
 You can deploy it with docker-compose, as per the docker-compose.yml example
 I am using static IP address of the catchall container to send all blocked queries there from [Adguard Home in DNS Settings](https://adguard.com/kb/adguard-for-ios/solving-problems/low-level-settings/#:~:text=Blocking%20mode%E2%80%8B,REFUSED%20%E2%80%94%20respond%20with%20REFUSED%20code):
 ![Screenshot_20240329_125519](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/8a291a09-9f7c-4bdb-8b23-374c51e320d7)
+
+On end to make sure you do not have to confirm invalid SSL certificate, I have added custom domain (in `app.py` update the `webblocker_host` , what can be set to anything and then you just need to use for example Nginx Proxy to point the url with valid SSL or with HTTP only to the ip where this Catchall is running.
+![image](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/b06e61c1-5fec-401e-b7ce-20cabee2017b)
+
