@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import threading
 
+webblocker_host="http://webblocker.vm.com"
 
 app = Flask(__name__)
 
@@ -20,32 +21,58 @@ class RequestLog(Base):
     method = Column(String)
     url = Column(String)
     root_domain =  Column(String)
+    post_data = Column(String)
+    headers = Column(String)
 
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
+
 HTTP_METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE', 'PATCH']
+
+@app.route('/webblocker/<int:id>', methods=['GET'])
+def webblocker(id):
+    if request.path == '/favicon.ico':
+        return Response(status=200)
+    try:
+        with Session() as session:
+            record = session.query(RequestLog).filter_by(id=id).one()
+    except NoResultFound as error:
+        return render_template('index.html', error=er)
+    return render_template('index.html', records=record)
 
 @app.route('/', defaults={'path': ''}, methods=HTTP_METHODS)
 @app.route('/<path:path>', methods=HTTP_METHODS)
 def catch_all(path):
     if request.path == '/favicon.ico':
         return Response(status=200)
+
     # Log the request
-    with Session() as session:
+    with Session() as session_db:
+        if request.method == 'POST': 
+            post_data = str(request.form)
+        elif request.method == 'GET':
+            post_data = str(request.args)
+        else:
+            post_data = ""
         records = {
             'method': request.method,
             'url': request.url,
-            'root_domain': request.host.split(':')[0]
+            'root_domain': request.host.split(':')[0],
+            'post_data': post_data,
+            'headers': str(request.headers)
         }
+
         log_entry = RequestLog(**records)
-        session.add(log_entry)
-        session.commit()
-        
+        session_db.add(log_entry)
+        session_db.commit()
+        log_id = log_entry.id
+    # Redirect to the webblocker URL without query parameters
+    webblocker_path = url_for('webblocker',id=log_id)
+    webblocker_url = f"{webblocker_host}{webblocker_path}"
+    return redirect(webblocker_url, code=302)
 
-    return render_template('index.html', records=records)
 
-
-@app.route('/test/showquery')
+@app.route('/webblocker/showquery')
 def show_query():
     # Retrieve all records from the request_logs table
     with Session() as session:
@@ -53,7 +80,7 @@ def show_query():
 
     return render_template('records.html', records=logs)
 
-@app.route('/test/delete_records', methods=['POST'])
+@app.route('/webblocker/delete_records', methods=['POST'])
 def delete_records():
     # Delete all records from the request_logs table
     with Session() as session:
