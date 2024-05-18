@@ -21,8 +21,7 @@ flask run & python app.py
 This will first run the app on port 80 and all interfaces and last command it will run on the port 443 as per the `app.py` code
 
 This app is using [Interactive Bootstrap 5 DataTables](https://www.datatables.net/) for easier data lookup.
-
-![Screenshot_20240518_190358](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/c81bcb9a-3847-4c8f-85ca-115a731ee228)
+![Screenshot_20240518_203638](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/f8e7dd56-fd9b-4462-8a7e-e81e8e4e7fe6)
 
 ## List all blocked attempts
 ![Screenshot_20240518_190418](https://github.com/ghostersk/catchall-webbrowsing/assets/68815071/ad23243f-aaa4-4593-b8e5-0f692d204fc8)
