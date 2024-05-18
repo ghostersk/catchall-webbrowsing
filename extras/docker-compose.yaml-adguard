@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  adguardhome:
+    container_name: adguarlocal
+    hostname: adguarlocal
+    image: adguard/adguardhome
+    network_mode: host
+    restart: always   
+    environment:
+      - TZ=Europe/London 
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 53:53/udp
+      - 67:67/udp
+      # Adguard portal port:
+      #- 3000:3000/tcp 
+    volumes:
+      - /opt/settings/adguard/conf:/opt/adguardhome/conf
+      - /opt/settings/adguard/work:/opt/adguardhome/work      
+      # logs - optional, usefull for troubleshooting and for Crowdsec
+      - /opt/settings/.logs/AdGuardHome.log:/var/log/AdGuardHome.log
