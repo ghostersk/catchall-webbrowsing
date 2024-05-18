@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  npm_local:
+    image: 'jc21/nginx-proxy-manager:latest'
+    hostname: npm_local
+    container_name: npm_local
+    restart: always
+    network_mode: bridge
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '10.99.196.1:3081:81' # Admin Web Port
+    environment:
+      - TZ=Europe/London
+      - DISABLE_IPV6=true
+
+    volumes:
+      - /opt/settings/npm/data:/data
+      - /opt/settings/npm/letsencrypt:/etc/letsencrypt
