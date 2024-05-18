@@ -10,17 +10,12 @@
 </head>
 <style>
 body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;  /* Align items at the start of the cross axis */
+    height: 100%;overflow-x:hidden;
 }
 .container {
-    width: 100%;
-    height: 60%; /* adjust height level, 100% is in middle */
-    display: flex;
-    justify-content: center;
+    width: auto;
+    height: auto; /* adjust height level, 100% is in middle */
+    overflow-x:hidden;
     align-items: center;
 }
 .centered-div {
@@ -41,27 +36,40 @@ body, html {
 <body class="fullbody">
     <div class="container">
         <div class="centered-div">
+            <p>
+                <a href="{{ url_for('show_query') }}"> Show History ...</a>
+            </p>
 
             {% if records %}
             <h1 class='warning'>
                 <b>Website {{ records.root_domain }} blocked</b>
             </h1>
             <div class="container">
-                <table class="left_align s_table">
+                <table class="left_align s_table" style="table-layout:fixed;width:100%;">
                     <tr>
-                        <th>Method</th>
+                        <th style="width:25%">Method</th>
                         <td>{{records.method}}</td>
                     </tr>
                     <tr>
-                        <th>URL</th>
+                        <th style="width:25%">URL</th>
                         <td>{{records.url}}</td>
+                    </tr>
+                    <tr>
+                        <th style="width:25%">Data</th>
+                        <td>{{records.post_data}}</td>
+                    </tr>
+                    <tr>
+                        <th style="width:25%">Headers</th>
+                        <td style="word-wrap:break-word;">
+                            {{ records.headers }}
+                        </td>
                     </tr>
                 </table>
             </div>
-            <p>
-                <a href="{{ url_for('show_query') }}"> Show History ...</a>
-            </p>
-
+            {% elif error %}
+            <h1 class='warning'>
+                <b>There was a problem:<br> {{ error }} </b>
+            </h1>
             {% endif %}
         </div>
         <p>
