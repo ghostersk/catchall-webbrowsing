@@ -5,6 +5,11 @@ from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 import threading
 
+# Set this URL to URL where the app will be redirected after it receive traffic.
+# This URL should have valid certificate ( self signed or Letsencrypt )
+# otherwise you will be always warned about bad certificate.
+# I used Nginx Proxy Manager to give me this, and added DNS record to Adguard
+# As I have this on internal network
 webblocker_host="http://webblocker.vm.com"
 
 app = Flask(__name__)
