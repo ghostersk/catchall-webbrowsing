@@ -6,6 +6,11 @@ The app will record what website was used, and it will also return information t
 It will listen on port 80 and 443, 443 port need certificate, i have added script to create certificate with CA signing.
 If you need, you can add the CA certificate to trusted certificates for easier use ( will work only on the IP, unless you make it for all hostnames)
 
+EDIT:
+There is an issue when the website tries to go to https, as it has infinit posibilities for domain names, you would need certificate for all of them trusted on your devices.
+At this time, I do not see option how to fix this. Idea was to convert HTTPS to HTTP on initial contact but that does not work.
+https://github.com/ghostersk/catchall-webbrowsing/issues/1
+
 The application is started by using `startup.sh`
 ```
 #!/bin/bash
